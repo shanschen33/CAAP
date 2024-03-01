@@ -1,5 +1,5 @@
-# calcon-aas
-Calculated convergence after grouping amino acids by physicochemical properties, modified origin method in Zou &amp; Zhang, 2015 and Xu et al., 2017.
+# CAAP
+CAAP (Convergence of Amino Acid Property) calculates convergence by grouping amino acids based on their physicochemical properties, using the modified origin method proposed by Zou & Zhang in 2015 and Xu et al. in 2017.
 
 # modified R
 *01_data* contained the LG substitution matrix used to infer ancestral, 6 cleaned amino acid fasta file and respective tree file.
