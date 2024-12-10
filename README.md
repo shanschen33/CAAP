@@ -93,11 +93,12 @@ Please see the details in the CAAP paper.
 cd 05_CCS
 ```
 
-To detect genes with CAAP in CCS method, you only need to prepare the amino acid alignment without gaps and ambiguous sites for each gene. Please see examples in `01_data`.
+To detect genes with CAAP in CCS method, you only need to prepare the amino acid alignment without gaps and ambiguous sites for each gene. There should be at least 2 focal species, respective sister species, and at least one reference species. Please see examples in `01_data`.
 
 Then detect the genes with CAAP:
 ```
-python 03_scripts/01_CCS_group_aas.py 01_data/ 02_output/ GS1
+# Note that the species names should be identical to the alignment file.
+python 03_scripts/01_CCS_group_aas.py 01_data/ 02_output/ GS1 "ama,rap,sal" "sin,ptr,egr" "osa"
 ```
 The output file named `{Group_scheme}.output.tsv` will be saved in `02_output`. The first, second, third, fourth and fifth column indicates names of alignments, parallel CAAP sites, convergent CAAP sites, list of parallel CAAP sites and list of convergent CAAP sites, respectively.
 
