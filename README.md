@@ -12,7 +12,7 @@ CAAP Pipeline
 │   └── Respective tree file
 │
 ├── 02_ancestal
-│   └── Inferred ancestral parameters
+│   └── Inferred evolutionary parameters
 │
 ├── 03_output
 │   └── Convergence calculation results (R method)
@@ -20,6 +20,7 @@ CAAP Pipeline
 ├── 04_scripts
 │   ├── 01_gnrt_dic_ctf.py
 │   └── 02_calc_R_group_aas.py
+│   └── 03_sig_gene.py
 │
 └── 05_CCS
     ├── 01_data
@@ -27,7 +28,7 @@ CAAP Pipeline
     ├── 02_output
     │   └── Convergence calculation results (CCS method)
     └── 03_scripts
-        └── 03_CCS_group_aas.py
+        └── 01_CCS_group_aas.py
 ```
 # Step-by-Step Pipeline
 ## 1. Data and Dependencies Preparation
