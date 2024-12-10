@@ -70,8 +70,11 @@ Calculate CAAP based on R using evolutionary parameters. The choice of group sch
 - Execution:
 ```
 # We use GS1 here as an example. This script counts observed CAAP sites (O) and calculates the expected CAAP sites (E).
-# You should replace the species list with your own focal species, the species names should be identical to those in the tree file.
+# You should replace the species list with your own focal species, the species names should be identical to those in the tree file. We show two examples here.
+# example 01
 python 04_scripts/02_calc_R_group_aas.py 02_ancestral 03_output GS1 "Physeter_catodon,Lipotes_vexillifer,Delphinapterus_leucas,Tursiops_truncatus,Orcinus_orca" "Miniopterus_natalensis,Eptesicus_fuscus,Myotis_davidii,Myotis_brandti,Myotis_lucifugus"
+# example 02
+python 04_scripts/02_calc_R_group_aas.py 02_ancestral 03_output GS1 "Physeter_catodon,Lipotes_vexillifer,Delphinapterus_leucas,Tursiops_truncatus,Orcinus_orca"  "Miniopterus_natalensis,Eptesicus_fuscus,Myotis_davidii,Myotis_brandti,Myotis_lucifugus,Hipposideros_armiger,Rhinolophus_sinicus,Rousettus_aegyptiacus"
 
 # This script summarizes the statistics, calculates R, and tests whether O significantly deviated from E. We select R<0.05 as the threshold for candidate genes (See details in CAAP paper).
 python 04_scripts/03_sig_gene.py 03_output/ 03_output/
