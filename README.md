@@ -98,8 +98,8 @@ python 03_scripts/01_CCS_group_aas.py 01_data/ 02_output/ GS1
 The output file named `{Group_scheme}.output.tsv` will be saved in `02_output`. The first, second, third, fourth and fifth column indicates names of alignments, parallel CAAP sites, convergent CAAP sites, list of parallel CAAP sites and list of convergent CAAP sites, respectively.
 
 # References
-1. Zhengting Zou, Jianzhi Zhang, Are Convergent and Parallel Amino Acid Substitutions in Protein Evolution More Prevalent Than Neutral Expectations?, Molecular Biology and Evolution, Volume 32, Issue 8, August 2015, Pages 2085–2096, https://doi.org/10.1093/molbev/msv091
-2. Shaohua Xu, Ziwen He, Zixiao Guo, Zhang Zhang, Gerald J. Wyckoff, Anthony Greenberg, Chung-I. Wu, Suhua Shi, Genome-Wide Convergence during Evolution of Mangroves from Woody Plants, Molecular Biology and Evolution, Volume 34, Issue 4, April 2017, Pages 1008–1015, https://doi.org/10.1093/molbev/msw277
-3. Si Quang Le, Olivier Gascuel, An Improved General Amino Acid Replacement Matrix, Molecular Biology and Evolution, Volume 25, Issue 7, July 2008, Pages 1307–1320, https://doi.org/10.1093/molbev/msn067
+- Zhengting Zou, Jianzhi Zhang, Are Convergent and Parallel Amino Acid Substitutions in Protein Evolution More Prevalent Than Neutral Expectations?, Molecular Biology and Evolution, Volume 32, Issue 8, August 2015, Pages 2085–2096, https://doi.org/10.1093/molbev/msv091
+- Shaohua Xu, Ziwen He, Zixiao Guo, Zhang Zhang, Gerald J. Wyckoff, Anthony Greenberg, Chung-I. Wu, Suhua Shi, Genome-Wide Convergence during Evolution of Mangroves from Woody Plants, Molecular Biology and Evolution, Volume 34, Issue 4, April 2017, Pages 1008–1015, https://doi.org/10.1093/molbev/msw277
+- Si Quang Le, Olivier Gascuel, An Improved General Amino Acid Replacement Matrix, Molecular Biology and Evolution, Volume 25, Issue 7, July 2008, Pages 1307–1320, https://doi.org/10.1093/molbev/msn067
 
 
