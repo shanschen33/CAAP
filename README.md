@@ -41,12 +41,7 @@ See example files in `01_data`.
 ### PAML Installation
 Please refer to this page: https://github.com/abacus-gene/paml/wiki/Installation.
 
-After installing PAML, type `codeml` in the command line to see if this function works. If you installed it successfully, the output will be:
-```
-error when opening file codeml.ctl
-tell me the full path-name of the file?
-```
-Don't worry. We will generate the `codeml.ctl` later in this pipeline.
+After installing PAML, you need to provide a `codeml.ctl` to run the `codeml`. We will generate the `codeml.ctl` later in this pipeline.
 
 ## 2. Evolutionary Parameter Inference
 - Process:
