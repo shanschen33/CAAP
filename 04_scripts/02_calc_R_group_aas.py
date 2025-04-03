@@ -175,7 +175,7 @@ def aas_classify(seq):
         seq_1.append(seq_among)
     return seq_1
 
-def calc_conv(group, tree, rates, freqs, smat):
+def calc_conv(group, tree, rates, freqs, smat, group_divide):
     p_list, c_list = [], []
     seq_len = len(rates)
     if len(freqs.shape) == 1:
@@ -195,86 +195,67 @@ def calc_conv(group, tree, rates, freqs, smat):
         else:
             flag = False
         anc = numpy.zeros((len(group_divide),), dtype = int)
-        for g in range(len(group_divide)):
-            for i in group_divide[g]:
-                if i == ancnode.sequence[idx]:
-                    anc[g] = 1.0        
+
+        anc = numpy.array([1.0 if x == ancnode.sequence[idx] else 0. for x in aas])   
         totalmat_list = []
         for b_name in group:
             a_root_dist = (tree & b_name).up.get_distance(ancnode) * rates[idx]
-            ab_dist = (tree & b_name).dist * rates[idx]
-            
+            ab_dist = (tree & b_name).dist * rates[idx]           
             if flag:  
-                a_prob = evo(anc, a_root_dist, qmat, freqs, idx)
-                pmat_c = get_pmat_c(a_root_dist, qmat, freqs, idx) 
-                imat = numpy.identity(pmat_c.shape[0])
-                b_condmat = evo(imat, ab_dist, qmat, freqs, idx)
+                a_prob = evo(anc, a_root_dist, qmat)
+                imat = numpy.identity(smat.shape[0])
+                b_condmat = evo(imat, ab_dist, qmat)
             else:
-                pmat_c = get_pmat_c(a_root_dist, qmat, freqs, idx) 
-                imat = numpy.identity(pmat_c.shape[0])
                 a_prob = anc
                 b_condmat = imat
             ab_totalmat = numpy.multiply(a_prob.reshape(-1, 1), b_condmat)
             totalmat_list.append(ab_totalmat)
-        pp, pc = sum_prob(totalmat_list)
+        pp, pc = sum_prob(totalmat_list, group_divide)
         p_list.append(pp)
         c_list.append(pc)
     return sum(p_list), sum(c_list), p_list, c_list
 
-def evo(n0, t, mat, freqs, idx):
-    pmat = scipy.linalg.expm(mat * t)
-    pmat_c = pmat_freq_convert(pmat, freqs, idx)
-    n = numpy.dot(n0, pmat_c)
+def evo(n0, t, mat):
+    n = numpy.dot(n0, scipy.linalg.expm(mat * t))
     return n
 
-def get_pmat_c(t, mat, freqs, idx):
-    pmat = scipy.linalg.expm(mat * t)
-    pmat_c = pmat_freq_convert(pmat, freqs, idx)
-    return pmat_c
-
-def pmat_freq_convert(pmat, freqs, idx):
-    aas_dic = dict(zip(aas, list(range(len(aas)))))
-    list_for_index = []
-    for g in range(len(group_divide)):
-        list1 = []
-        for j in group_divide[g]:
-            list1.append(aas_dic[j])
-        list_for_index.append(list1)
-
-    pmat_c = numpy.zeros([len(group_divide), len(group_divide)])
-
-    for i in range(len(list_for_index)):
-        freqs_sum = freqs[idx][list_for_index[i]].sum()
-        for r in range(len(list_for_index)):
-            gprob_multiply_freqs = 0
-            if i == r:
-                continue
-            else:
-                for x in list_for_index[i]:
-                    mat1 = pmat[x]
-                    mat2 = mat1[list_for_index[r]]
-                    gprob = numpy.sum(mat2)
-                    gprob_multiply_freqs = gprob_multiply_freqs + gprob * freqs[idx][x]
-            if freqs_sum > 0:
-                pmat_c[i, r] = gprob_multiply_freqs / freqs_sum
-            else:
-                pmat_c[i, r] = 0
-    for i in range(pmat_c.shape[0]):
-        pmat_c[i, i] = 0
-        pmat_c[i, i] = 1 - numpy.sum(pmat_c[i, :])
-    return pmat_c
-
-def sum_prob(tmat_list):
+def sum_prob(tmat_list, group_divide):
     ppmat = numpy.ones_like(tmat_list[0])
-    pcvec = numpy.ones(ppmat.shape[0])
+    size = ppmat.shape[0]
+    pcvec = numpy.ones(size)
+    group_map = {}
+    for g_idx, g_str in enumerate(group_divide):
+        for aa in g_str:
+            group_map[aa] = g_idx
+    
+    mat_process = []
     for tmat in tmat_list:
         tmat1 = tmat.copy()
-        for i in range(ppmat.shape[0]):
+        for i in range(size):
             tmat1[i, i] = 0.0
-        ppmat *= tmat1
+        for i in range(size):
+            for j in range(size):
+                if tmat1[i,j] > 0:
+                    if group_map[aas[i]] == group_map[aas[j]]:
+                        # Substitutions within same group can not be counted 
+                        tmat1[i,j] = 0.0
+        mat_process.append(tmat1)
         tvec1 = tmat1.sum(axis=0)
         pcvec *= tvec1
-    pp = ppmat.sum()
+
+    mat1 = mat_process[0]
+    mat2 = mat_process[1]
+    aa_index = {aa: i for i, aa in enumerate(aas)}
+    mat_sum = 0.0
+    for g in group_divide:
+        g_indices = [aa_index[aa] for aa in g]
+        for idx in g_indices:
+            mat1_sum = mat1[:, idx].sum()
+            filtered_idx = [x for x in g_indices if x != idx]
+            mat2_sum = mat2[:, filtered_idx].sum()
+            mat_sum += mat1_sum * mat2_sum
+
+    pp = mat_sum
     pc = pcvec.sum()
     return pp, pc
 
